@@ -13,7 +13,7 @@
                 const data = {
                     "room" : e.target.room.value,
                     "message" : e.target.message.value,
-                    "password" : e.target.message.value
+                    "password" : e.target.password.value
                 };
                 try {
                     await axios.post('/send', data);

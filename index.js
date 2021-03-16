@@ -12,6 +12,7 @@ app.use(express.json());
 app.post('/send', (req, res) => {
     const data = req.body;
     console.log(data);
+    console.log(socketDict);
     if(data.password == "4321") {
         let id = socketDict[data.room];
         if(id != undefined) {
@@ -32,7 +33,7 @@ io.on('connection', (socket) => {
     console.log(socket.id + 'user connected');
 	
     socket.on('request message', (data) => {
-	    console.log(data);
+        console.log(data);
         chatInfo = JSON.parse(data);
         res = {
             "room" : chatInfo.room,
