@@ -4,6 +4,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 var socketDict = {};
+var customServers = [];
 
 // path control
 app.use(express.static('public'));
@@ -41,12 +42,45 @@ io.on('connection', (socket) => {
         };
         socketDict[res.room] = socket.id;
         console.log(JSON.stringify(res));
-        socket.emit('push message', JSON.stringify(res));
+        socket.broadcast.emit('receive message', JSON.stringify(res)).
+        //socket.emit('push message', JSON.stringify(res));
     });
 	
+    //for test
     socket.on('msg', (msg) => {
         console.log(msg);
         socket.emit('msg', msg);
+    });
+
+    //custom server register
+    socket.on('register', (data) => {
+        try {
+            if(data.password === "4321") {
+                if(customServers.indexOf(socket.id) === -1) {
+                    customServers.push(socket.id);
+                }
+            }
+        }
+        catch(err) {
+            console.err(err);
+        }
+    });
+
+    //custom server send message
+    socket.on('send message', (data) => {
+        try {
+            if(customServers.indexOf(socket.id) !== -1) {
+                clientId = socketDict[data.room];
+                sendData = {
+                    "room" : data.room,
+                    "msg" : data.msg
+                };
+                io.to(clientId).emit('push message', JSON.stringify(sendData));
+            }
+        }
+        catch(err) {
+            console.err(err);
+        }
     });
 
     //user out
