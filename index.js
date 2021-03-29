@@ -37,12 +37,14 @@ io.on('connection', (socket) => {
         console.log(data);
         chatInfo = JSON.parse(data);
         res = {
+            "sender" : chatInfo.sender,
             "room" : chatInfo.room,
-            "msg" : chatInfo.msg
+            "msg" : chatInfo.msg,
+            "isGroupChat" : chatInfo.isGroupChat
         };
         socketDict[res.room] = socket.id;
         console.log(JSON.stringify(res));
-        socket.broadcast.emit('receive message', JSON.stringify(res)).
+        socket.broadcast.emit('receive message', res);
         //socket.emit('push message', JSON.stringify(res));
     });
 	
@@ -54,6 +56,7 @@ io.on('connection', (socket) => {
 
     //custom server register
     socket.on('register', (data) => {
+        console.log(data);
         try {
             if(data.password === "4321") {
                 if(customServers.indexOf(socket.id) === -1) {
@@ -68,6 +71,7 @@ io.on('connection', (socket) => {
 
     //custom server send message
     socket.on('send message', (data) => {
+        console.log(data);
         try {
             if(customServers.indexOf(socket.id) !== -1) {
                 clientId = socketDict[data.room];

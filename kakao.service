@@ -1,0 +1,12 @@
+[Unit]
+Description=kakao-daemon
+After=network.target
+ 
+[Service]
+ExecStart=node index.js
+Restart=on-failure
+User=pi
+WorkingDirectory=/home/pi/Desktop/KakaotalkBotPushMessage
+ 
+[Install]
+WantedBy=multi-user.target
