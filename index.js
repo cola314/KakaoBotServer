@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
             }
         }
         catch(err) {
-            console.err(err);
+            console.error(err);
         }
     });
 
@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
             }
         }
         catch(err) {
-            console.err(err);
+            console.error(err);
         }
     });
 
