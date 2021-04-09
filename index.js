@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
     console.log(socket.id + 'user connected');
 
     socket.on('register client', () => {
+        console.log('register client' + socket.id);
         clientId = socket.id;
     });
 
@@ -77,12 +78,14 @@ io.on('connection', (socket) => {
         console.log(data);
         try {
             if(customServers.indexOf(socket.id) !== -1) {
-                clientId = socketDict[data.room];
-                sendData = {
-                    "room" : data.room,
-                    "msg" : data.msg
-                };
-                io.to(clientId).emit('push message', JSON.stringify(sendData));
+                if(clientId != null) {
+                    sendData = {
+                        "room" : data.room,
+                        "msg" : data.msg
+                    };
+                    io.to(clientId).emit('push message', JSON.stringify(sendData));
+                    console.log('push success ' + clientId);
+                }
             }
         }
         catch(err) {
