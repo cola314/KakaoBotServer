@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
     console.log(socket.id + 'user connected');
 
     socket.on('register client', () => {
-        console.log('register client' + socket.id);
+        console.log('register client ' + socket.id);
         clientId = socket.id;
     });
 
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
 
     //custom server register
     socket.on('register', (data) => {
-        console.log(data);
+        console.log(data + ' ' + socket.id);
         try {
             if(data.password === "4321") {
                 if(customServers.indexOf(socket.id) === -1) {
@@ -86,6 +86,8 @@ io.on('connection', (socket) => {
                     io.to(clientId).emit('push message', JSON.stringify(sendData));
                     console.log('push success ' + clientId);
                 }
+            } else {
+                console.log('Permission Denied ' + socket.id);
             }
         }
         catch(err) {

@@ -7,7 +7,9 @@ const registerData = {
     "password" : "4321"
 }
 
-ioClient.emit("register", registerData);
+ioClient.on('connect', (data) => {
+    ioClient.emit("register", registerData);
+});
 
 ioClient.on("receive message", (data) => {
     console.log(data);
