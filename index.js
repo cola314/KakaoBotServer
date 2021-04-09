@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
 
     //custom server register
     socket.on('register', (data) => {
-        console.log(data + ' ' + socket.id);
+        console.log(JSON.stringify(data) + ' ' + socket.id);
         try {
             if(data.password === "4321") {
                 if(customServers.indexOf(socket.id) === -1) {
