@@ -3,8 +3,8 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
-var socketDict = {};
 var customServers = [];
+var clientId = null;
 
 // path control
 app.use(express.static('public'));
@@ -15,8 +15,8 @@ app.post('/send', (req, res) => {
     console.log(data);
     console.log(socketDict);
     if(data.password == "4321") {
-        let id = socketDict[data.room];
-        if(id != undefined) {
+        let id = clilentId;
+        if(id != null) {
             io.to(id).emit('push message', JSON.stringify({"room" : data.room, "msg" : data.message}));
             return res.sendStatus(200);
         } 
@@ -32,7 +32,11 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     //user_come
     console.log(socket.id + 'user connected');
-	
+
+    socket.on('register client', () => {
+        clientId = socket.id;
+    });
+
     socket.on('request message', (data) => {
         console.log(data);
         chatInfo = JSON.parse(data);
@@ -42,7 +46,6 @@ io.on('connection', (socket) => {
             "msg" : chatInfo.msg,
             "isGroupChat" : chatInfo.isGroupChat
         };
-        socketDict[res.room] = socket.id;
         console.log(JSON.stringify(res));
         socket.broadcast.emit('receive message', res);
         //socket.emit('push message', JSON.stringify(res));
