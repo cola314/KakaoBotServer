@@ -13,13 +13,12 @@ app.use(express.json());
 app.post('/send', (req, res) => {
     const data = req.body;
     console.log(data);
-    console.log(socketDict);
     if(data.password == "4321") {
-        let id = clilentId;
+        let id = clientId;
         if(id != null) {
             io.to(id).emit('push message', JSON.stringify({"room" : data.room, "msg" : data.message}));
             return res.sendStatus(200);
-        } 
+        }
     }
     return res.sendStatus(400);
 });
@@ -51,7 +50,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('receive message', res);
         //socket.emit('push message', JSON.stringify(res));
     });
-	
+
     //for test
     socket.on('msg', (msg) => {
         console.log(msg);
