@@ -1,0 +1,21 @@
+{
+  "profiles": {
+    "KakaoBotServer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "API_KEY": "ApiKey",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "REDIS_SERVER": "localhost",
+        "REDIS_PORT": "6379"
+      },
+      "applicationUrl": "http://localhost:5282;https://localhost:7282",
+      "dotnetRunMessages": true
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}
