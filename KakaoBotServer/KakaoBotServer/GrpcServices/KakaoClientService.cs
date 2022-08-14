@@ -58,7 +58,7 @@ public class KakaoClientService : KakaoClient.KakaoClientBase
             {
                 {"ApiKey", apiKey }
             };
-            throw new RpcException(new Status(StatusCode.PermissionDenied, "Invalid ApiKey"), metadata);
+            throw new RpcException(new Status(StatusCode.Unauthenticated, "Invalid ApiKey"), metadata);
         }
     }
 }
