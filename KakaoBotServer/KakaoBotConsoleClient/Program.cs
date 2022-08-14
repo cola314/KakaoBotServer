@@ -24,11 +24,12 @@ _ = Task.Run(async () =>
         }
         catch (RpcException ex)
         {
-            if (ex.StatusCode == StatusCode.Unauthenticated)
+            if (ex.StatusCode == StatusCode.PermissionDenied)
             {
-                Console.WriteLine("[Unauthenticated]" + ex.Message);
+                Console.WriteLine("[PermissionDenied]" + ex.Message);
                 break;
             }
+            Console.WriteLine("[ReadPushMessage RpcException]" + ex.Message);
 
             await Task.Delay(1000);
         }
@@ -51,6 +52,11 @@ while (true)
     }
     catch (RpcException ex)
     {
+        if (ex.StatusCode == StatusCode.PermissionDenied)
+        {
+            Console.WriteLine("[PermissionDenied]" + ex.Message);   
+            break;
+        }
         Console.WriteLine("[SendReceivedMessageAsync RpcException]" + ex.Message);
     }
 }
