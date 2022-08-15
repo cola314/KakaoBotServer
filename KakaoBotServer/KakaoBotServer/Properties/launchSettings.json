@@ -8,7 +8,7 @@
         "REDIS_SERVER": "localhost",
         "REDIS_PORT": "6379"
       },
-      "applicationUrl": "http://localhost:5282;https://localhost:7282",
+      "applicationUrl": "http://0.0.0.0:5282;https://0.0.0.0:7282",
       "dotnetRunMessages": true
     },
     "Docker": {

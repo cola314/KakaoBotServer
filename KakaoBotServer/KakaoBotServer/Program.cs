@@ -18,7 +18,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 var app = builder.Build();
 
-app.MapGrpcService<KakaoClientService>();
+app.UseGrpcWeb();
+app.MapGrpcService<KakaoClientService>().EnableGrpcWeb();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client");
 
 app.Run();

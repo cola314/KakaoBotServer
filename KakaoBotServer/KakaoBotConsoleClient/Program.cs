@@ -1,8 +1,16 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+using Grpc.Net.Client.Web;
 using GrpcProto;
 
-var channel = GrpcChannel.ForAddress("https://localhost:7282");
+var httpHandler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+});
+var channel = GrpcChannel.ForAddress("https://localhost:7282", new GrpcChannelOptions()
+{
+    HttpHandler = httpHandler
+});
 
 var client = new KakaoClient.KakaoClientClient(channel);
 

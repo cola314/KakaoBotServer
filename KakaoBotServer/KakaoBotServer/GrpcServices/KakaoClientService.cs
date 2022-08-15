@@ -8,7 +8,7 @@ namespace KakaoBotServer.GrpcServices;
 
 public class KakaoClientService : KakaoClient.KakaoClientBase
 {
-    private readonly ILogger<KakaoClientService> _logger;
+    private readonly ILogger _logger;
     private readonly AuthService _authService;
     private readonly MessageTransferService _messageTransferService;
 
@@ -21,6 +21,7 @@ public class KakaoClientService : KakaoClient.KakaoClientBase
 
     public override async Task ReadPushMessage(ReadPushMessageRequest request, IServerStreamWriter<PushMessageResponse> responseStream, ServerCallContext context)
     {
+        _logger.LogInformation("[ReadPushMessage] {0}", context.Peer);
         ThrowIfApiKeyIsInvalid(request.ApiKey);
 
         await foreach (var message in _messageTransferService.GetPushMessages(context.CancellationToken))
