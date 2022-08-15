@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>05fad272-44bc-407f-b8e2-c21ccd0820fc</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\kakao_client.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.47.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.48" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GrpcServices\" />
+    <Folder Include="Config\" />
+    <Folder Include="Model\" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
+</Project>
