@@ -72,7 +72,8 @@ sequenceDiagram
     participant KakaoBotManager
     KakaoBotClient->>KakaoBotServer: SendReceivedMessage(Message)
     KakaoBotServer->>Redis: LPUSH message_queue Message
-    KakaoBotManager->>Redis: RPOP message_queue
+    KakaoBotManager->>+Redis: RPOP message_queue
+    Redis-->>-KakaoBotManager: Message
 ```
 
 ### 매니저에서 서버로 메시지 전송시
