@@ -8,7 +8,7 @@ while (true)
 {
     try
     {
-        var value = redis.GetDatabase().ListLeftPop("message_queue");
+        var value = redis.GetDatabase().ListRightPop("message_queue");
         if (value.IsNull)
         {
             await Task.Delay(1);
