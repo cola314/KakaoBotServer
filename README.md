@@ -46,3 +46,59 @@ KakaoBotServer
 ### KakaoBotServer
 - ASP.NET Core gRPC 서버
 - KakaoBotClient와 KakaoBotManager 사이에서 메시지 전송을 담당하는 서버
+
+## 동작 설명
+
+### 전체 구성
+```mermaid
+flowchart LR
+    client[KakaoBotClient<br/>C# Xamarin.Forms]-->|gRPC|server[KakaoBotServer<br/>C# ASP.NET Core<br/>gRPC Service]
+    server-->|LPUSH<br/>Sub|redis[Redis<br/>Message Queue<br/>Pub/Sub]
+    manager[KakaoBotManager<br/>C# ASP.NET Core<br/>Blazor Server]-->|RPOP<br/>Pub|redis
+    manager<-->|http/https|chatbot[External ChatBotService1]
+    manager<-->|http/https|chatbot2[External ChatBotService2]
+```
+
+### 클라이언트 인증
+- gRPC 메소드 호출시 파라미터로 apiKey를 보내서 인증 실패시 UNAUTHENTICATED 상태코드 반환
+
+### 클라이언트에서 서버로 메시지 전송시
+
+```mermaid
+sequenceDiagram
+    participant KakaoBotClient
+    participant KakaoBotServer
+    participant Redis
+    participant KakaoBotManager
+    KakaoBotClient->>KakaoBotServer: SendReceivedMessage(Message)
+    KakaoBotServer->>Redis: LPUSH message_queue Message
+    KakaoBotManager->>Redis: RPOP message_queue
+```
+
+### 매니저에서 서버로 메시지 전송시
+
+```mermaid
+sequenceDiagram
+    participant KakaoBotClient
+    participant KakaoBotServer
+    participant Redis
+    participant KakaoBotManager
+    KakaoBotClient->>+KakaoBotServer: ReadPushMessage
+    KakaoBotServer->>+Redis: SUBSCRIBE push_channel
+    KakaoBotManager->>Redis: PUBLISH push_channel PushMessage1
+    Redis-->>KakaoBotServer: PushMessage1
+    KakaoBotServer-->>KakaoBotClient: PushMessage1
+    KakaoBotManager->>Redis: PUBLISH push_channel PushMessage2
+    Redis-->>-KakaoBotServer: PushMessage2
+    KakaoBotServer-->>-KakaoBotClient: PushMessage2
+```
+
+## 환경변수
+`API_KEY`  
+클라이언트 인증에 사용하는 API_KEY
+
+`REDIS_SERVER`  
+레디스 서버 주소
+
+`REDIS_PORT`  
+레디스 서버 포트
