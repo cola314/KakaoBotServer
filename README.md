@@ -33,7 +33,7 @@ KakaoBotServer
       └─Service
 ```
 
-#### KakaoBotConsoleClient
+### KakaoBotConsoleClient
 - 콘솔 애플리케이션
 - KakaoBotClient 역할을 하는 Mock 클라이언트
 - 콘솔 입력으로 메시지를 보내고 푸시 메시지가 콘솔 출력으로 표시됨
