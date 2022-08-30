@@ -54,7 +54,7 @@ KakaoBotServer
 flowchart LR
     client[KakaoBotClient<br/>C# Xamarin.Forms]-->|gRPC|server[KakaoBotServer<br/>C# ASP.NET Core<br/>gRPC Service]
     server-->|LPUSH<br/>Sub|redis[Redis<br/>Message Queue<br/>Pub/Sub]
-    manager[KakaoBotManager<br/>C# ASP.NET Core<br/>Blazor Server]-->|RPOP<br/>Pub|redis
+    manager[KakaoBotManager<br/>C# ASP.NET Core<br/>Blazor Server]-->|BRPOP<br/>Pub|redis
     manager<-->|http/https|chatbot[External ChatBotService1]
     manager<-->|http/https|chatbot2[External ChatBotService2]
 ```
@@ -72,7 +72,7 @@ sequenceDiagram
     participant KakaoBotManager
     KakaoBotClient->>KakaoBotServer: SendReceivedMessage(Message)
     KakaoBotServer->>Redis: LPUSH message_queue Message
-    KakaoBotManager->>+Redis: RPOP message_queue
+    KakaoBotManager->>+Redis: BRPOP message_queue
     Redis-->>-KakaoBotManager: Message
 ```
 
