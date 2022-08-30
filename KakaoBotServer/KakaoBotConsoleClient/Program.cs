@@ -49,6 +49,7 @@ while (true)
     try
     {
         var line = Console.ReadLine();
+        Console.WriteLine($"[SendReceivedMessageAsync] {line}");
         await client.SendReceivedMessageAsync(new SendReceivedMessageRequest()
         {
             ApiKey = apiKey,

@@ -8,14 +8,11 @@ while (true)
 {
     try
     {
-        var value = redis.GetDatabase().ListRightPop("message_queue");
-        if (value.IsNull)
+        var value = await redis.GetDatabase().ExecuteAsync("BRPOP", "message_queue", 4);
+        if (!value.IsNull)
         {
-            await Task.Delay(1);
-        }
-        else
-        {
-            var message = JsonSerializer.Deserialize<ReceivedMessage>(value.ToString());
+            var result = value.ToDictionary().First().Value?.ToString();
+            var message = JsonSerializer.Deserialize<ReceivedMessage>(result);
             var pushMessage = new PushMessage()
             {
                 Message = message.Message,
