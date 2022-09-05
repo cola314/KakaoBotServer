@@ -30,7 +30,14 @@ public class MessageTransferService
             _logger.LogInformation("[GetPushMessages] room: {0}**, message size: {2}",
                 message.Room.FirstOrDefault(), message.Message.Length);
 
-            await writer.WriteAsync(message, ctx);
+            try
+            {
+                await writer.WriteAsync(message, ctx);
+            }
+            catch (OperationCanceledException) 
+            {
+                // Successfully canceled
+            }
         }
 
         var sub = _redis.GetSubscriber();
