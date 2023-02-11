@@ -1,6 +1,6 @@
 # KakaoBotServer
 **카톡 챗봇 메시지 전송 서버**
-- KakaoBotClient와 KakaoBotManager 사이에서 메시지 전송을 담당하는 서버
+- [KakaoBotClient](https://github.com/cola314/KakaoBotClient)와 [KakaoBotManager](https://github.com/cola314/KakaoBotManagerServer) 사이에서 메시지 전송을 담당하는 서버
 
 <div align=center><h2>📚 STACKS</h2></div>
 
@@ -103,3 +103,7 @@ sequenceDiagram
 
 `REDIS_PORT`  
 레디스 서버 포트
+
+### 챗봇 서비스 프로젝트
+- 깃 웹훅 카톡 알림 서비스: https://github.com/cola314/KakaoGitWebhook
+- 멜론 차트 챗봇 서비스: https://github.com/cola314/MelonChartChatbot
